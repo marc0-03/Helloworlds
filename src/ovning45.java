@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class ovning45 {
         public static void main(String[] args) {
-            double minuter = Double.parseDouble(JOptionPane.showInputDialog("Hur långt pågick samtalet"));
+            double minuter = Double.parseDouble(JOptionPane.showInputDialog("Hur långt pågick samtalet \n brrrrrr"));
             double nar = Double.parseDouble(JOptionPane.showInputDialog("när pågick samtalet"));
             double dag = Double.parseDouble(JOptionPane.showInputDialog("vilken dag var samtalet \n1 för måndag, 2 för tisdag osv"));
             double pris;
