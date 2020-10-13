@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class yeas {
         public static void main(String[] args) {
-    double bredd = Double.parseDouble(JOptionPane.showInputDialog("Hur bredd är den?"));
+    double bredd = Double.parseDouble(JOptionPane.showInputDialog("Hur brrrredd är den?"));
     double langd = Double.parseDouble(JOptionPane.showInputDialog("Vilken längd har den?"));
     double tjocklek = Double.parseDouble(JOptionPane.showInputDialog("hur tjock är den?"));
     String langdse;
