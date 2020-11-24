@@ -1,3 +1,5 @@
+package yeee;
+
 import javax.swing.*;
 
 public class While54 {
