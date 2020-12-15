@@ -29,4 +29,18 @@ public class Meth {
             return false;
         }
     }
+    public static int antal(int tal) {
+        int i = 0;
+        while (tal > 0 ) {
+            i = i+1;
+            tal = tal/10;
+        }
+        return i;
+    }
+    public static String visainfo() {
+        String x;
+        x = System.getProperty("user.name");
+        x = "namn " + x + "\noperativsystem " + System.getProperty("os.name");
+        return x;
+    }
 }
