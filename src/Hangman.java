@@ -21,6 +21,7 @@ public class Hangman {
         }
         JOptionPane.showMessageDialog(null, Visibleword + word); //just checkin
         while (k<10 || !Visibleword.contains("_")){
+            k++;
             System.out.println(); //here we should print the hangman the quessed letters, the Visibleword and it should ask the user for a letter im not sure if i should use a JOptionpane or the console for this
         } //kommer utanför denna när när du har slut på gisnignar eller när du är klar
     }
