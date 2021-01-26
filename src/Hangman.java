@@ -18,7 +18,7 @@ public class Hangman {
             }
             d++;
         }
-        while (k<10 || Visibleword.contains("_")){
+        while (k<10 && Visibleword.contains("_")){
             Ourword = JOptionPane.showInputDialog(null, Visibleword + " " + word); //here we should print the hangman the quessed letters, the Visibleword and it should ask the user for a letter im not sure if i should use a JOptionpane or the console for this
             ourquess = Ourword.charAt(0);
             if (word.contains(Ourword)) {
