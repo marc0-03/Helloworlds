@@ -7,7 +7,6 @@ public class Hangman {
         String  Ourword;
         int k = 0;
         int d = 0;
-        int i;
         char ourquess;
         String Visibleword = "";
 
@@ -19,20 +18,20 @@ public class Hangman {
             }
             d++;
         }
-        while (k<10 || !Visibleword.contains("_")){
+        while (k<10 || Visibleword.contains("_")){
             Ourword = JOptionPane.showInputDialog(null, Visibleword + " " + word); //here we should print the hangman the quessed letters, the Visibleword and it should ask the user for a letter im not sure if i should use a JOptionpane or the console for this
             ourquess = Ourword.charAt(0);
             if (word.contains(Ourword)) {
-                for (i=0; i<word.length(); i++) {
+                for (int i=0; i<word.length(); i++) {
                     if (word.charAt(i) == ourquess) {
-                        Visibleword.charAt(i*2) = ourquess; //Question, how do i change a character at a certain point in a string
+                        Visibleword = Visibleword.substring(0,i*2)+word.charAt(i)+Visibleword.substring((i*2)+1);
                     }
                 }
             } else {
-                k++;
+                k++; //fick ett fel, borde också lägga till den gissade bokstaven till en lista
             }
         } //kommer utanför denna när när du har slut på gisnignar eller när du är klar
-        System.out.println(Visibleword + " the word is " + word);
+        JOptionPane.showMessageDialog(null, "yooo");
     }
 
     private static String pickRandomword() {
