@@ -10,6 +10,7 @@ public class Hangman {
         int Tries = 0;
         char ourquess;
         String Visibleword = "";
+        String felgisning = "";
         String[] gubben = {" ------\n" +
                 "|     |\n" +
                 "|\n" +
@@ -99,8 +100,6 @@ public class Hangman {
                 "|    | |\n" +
                 "|    | |\n" +
                 "----------"};
-        String felgisning = "";
-
         while (d<word.length()){     //vill kunna få längden på det vallda ordet
             if (word.charAt(d) != ' ') {                 //Vill kunna kolla om karaktären i positionen d
                 Visibleword = Visibleword + "_ ";        // är " " och om det är det ha ett mellanrum där
@@ -110,7 +109,7 @@ public class Hangman {
             d++;
         }
         while (k<10 && Visibleword.contains("_")){
-            Ourword = JOptionPane.showInputDialog(null, gubben[k] + "\nDina Bokstäver du har gissat: " + felgisning + "\n" + Visibleword + " " + word); //here we should print the hangman the quessed letters, the Visibleword and it should ask the user for a letter im not sure if i should use a JOptionpane or the console for this
+            Ourword = JOptionPane.showInputDialog(null, gubben[k] + "\nBokstäver du har gissat: " + felgisning + "\n" + Visibleword); //here we should print the hangman the quessed letters, the Visibleword and it should ask the user for a letter im not sure if i should use a JOptionpane or the console for this
             Ourword = Ourword.toUpperCase();
             ourquess = Ourword.charAt(0);
             if (! felgisning.contains(Ourword)) {
@@ -123,7 +122,7 @@ public class Hangman {
                         }
                     }
                 } else {
-                    k++; //fick ett fel, borde också lägga till den gissade bokstaven till en lista
+                    k++; //fick ett fel.
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Du har redan gissat " + Ourword);
@@ -131,13 +130,13 @@ public class Hangman {
         } //kommer utanför denna när när du har slut på gisnignar eller när du är klar
         if (k<10) {
             JOptionPane.showMessageDialog(null,  gubben[k] + "\n\nDu vann! \nOrdet var " + word + "\nDet tog " + Tries + " försök att få ordet");
-        } else {
+        } else { //om du van ser du medelandet över och om du förlorade ser du det som är under
             JOptionPane.showMessageDialog(null,  gubben[k] + "\n\nFan han dog! \nDet här är ditt fel, ordet var " + word + " det borde inte varit så svårt\nDet tog dig " + Tries + " försök Men endå kunde du inte rädda han");
         }
     }
 
     private static String pickRandomword() {
-        String[] words = {"JACK O LANTERN", "DANDARA", "UNDERTALE", "JACK THE RIPPER"};
+        String[] words = {"JACK O LANTERN", "DANDARA", "UNDERTALE", "JACK THE RIPPER", "NEW PHONE WHO DIS", "PIE", "DEAD MEN TELL NO TALES", "MONKEY VS LIZARD"};
         Random R = new Random();
         int randomNumber = R.nextInt(words.length);
         return words[randomNumber];
