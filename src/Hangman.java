@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.util.Random;
 
 public class Hangman {
@@ -8,9 +7,98 @@ public class Hangman {
         String  Ourword;
         int k = 0;
         int d = 0;
+        int Tries = 0;
         char ourquess;
         String Visibleword = "";
-        String[] gubben = {"Frame1","Frame2","Frame3","Frame4","Frame5","Frame6","Frame7","Frame8","Frame9","Frame10"};
+        String[] gubben = {" ------\n" +
+                "|     |\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|     +\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|    -+\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|    -+-\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|   /-+-\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|   /-+-/\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|   /-+-/\n" +
+                "|     |\n" +
+                "|\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|   /-+-/\n" +
+                "|     |\n" +
+                "|     |\n" +
+                "|\n" +
+                "|\n" +
+                "----------"," ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|   /-+-/\n" +
+                "|     |\n" +
+                "|     |\n" +
+                "|    |\n" +
+                "|    |\n" +
+                "----------", " ------\n" +
+                "|     |\n" +
+                "|     0\n" +
+                "|   /-+-/\n" +
+                "|     |\n" +
+                "|     |\n" +
+                "|    | |\n" +
+                "|    | |\n" +
+                "----------"};
         String felgisning = "";
 
         while (d<word.length()){     //vill kunna få längden på det vallda ordet
@@ -23,8 +111,11 @@ public class Hangman {
         }
         while (k<10 && Visibleword.contains("_")){
             Ourword = JOptionPane.showInputDialog(null, gubben[k] + "\nDina Bokstäver du har gissat: " + felgisning + "\n" + Visibleword + " " + word); //here we should print the hangman the quessed letters, the Visibleword and it should ask the user for a letter im not sure if i should use a JOptionpane or the console for this
+            Ourword = Ourword.toUpperCase();
             ourquess = Ourword.charAt(0);
             if (! felgisning.contains(Ourword)) {
+                felgisning = felgisning + ourquess + ",";
+                Tries++;
                 if (word.contains(Ourword)) {
                     for (int i = 0; i < word.length(); i++) {
                         if (word.charAt(i) == ourquess) {
@@ -33,17 +124,20 @@ public class Hangman {
                     }
                 } else {
                     k++; //fick ett fel, borde också lägga till den gissade bokstaven till en lista
-                    felgisning = felgisning + ourquess + ",";
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Du har redan gissat " + Ourword);
             }
         } //kommer utanför denna när när du har slut på gisnignar eller när du är klar
-        JOptionPane.showMessageDialog(null, "yooo");
+        if (k<10) {
+            JOptionPane.showMessageDialog(null,  gubben[k] + "\n\nDu vann! \nOrdet var " + word + "\nDet tog " + Tries + " försök att få ordet");
+        } else {
+            JOptionPane.showMessageDialog(null,  gubben[k] + "\n\nFan han dog! \nDet här är ditt fel, ordet var " + word + " det borde inte varit så svårt\nDet tog dig " + Tries + " försök Men endå kunde du inte rädda han");
+        }
     }
 
     private static String pickRandomword() {
-        String[] words = {"Jack O Lantern", "Jack O Lantern", "Jack O Lantern", "Jack O Lantern"};
+        String[] words = {"JACK O LANTERN", "DANDARA", "UNDERTALE", "JACK THE RIPPER"};
         Random R = new Random();
         int randomNumber = R.nextInt(words.length);
         return words[randomNumber];
