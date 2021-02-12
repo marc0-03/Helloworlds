@@ -1,7 +1,12 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class GuiNotePad {
 
@@ -9,7 +14,44 @@ public class GuiNotePad {
     public GuiNotePad() {
         newButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e) {  //Create a new file and if a file is open and has been changed, prompt user to save
+
+            }
+        });
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { //Open a file in your computor in the text editor
+                JFileChooser fc = new JFileChooser();
+                int resultat = fc.showOpenDialog(null);
+                if (resultat != JFileChooser.APPROVE_OPTION) {
+                    System.out.println("ingen fil valdes");
+                    System.exit(0);
+                }
+                String filnamn = fc.getSelectedFile().getAbsolutePath();
+                FileReader fr = null;
+                try {
+                    fr = new FileReader(filnamn);
+                } catch (FileNotFoundException E) {
+                    E.printStackTrace();
+                }
+                BufferedReader inFile = new BufferedReader(fr);
+
+                String line;
+                try {
+                    while ((line = inFile.readLine() ) != null ) {
+                        System.out.println(line);
+                        textArea1.setText(line);
+                    }
+                    inFile.close();
+                } catch (IOException E) {
+                    E.printStackTrace();
+                }
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { //save the dokument or maybe "save as"? dont really know yet
+
             }
         });
     }
