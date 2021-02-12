@@ -93,13 +93,13 @@ public class Hangman {
                 "|     |\n" +
                 "|    |\n" +
                 "|    |\n" +
-                "----------", " ------\n" +
+                "----------", " ------\n" +   //DAMN DAUG
                 "|     |\n" +
-                "|     0\n" +
+                "|     0\n" +                 //HE DEAD AS A DOORNAIL
                 "|   /-+-/\n" +
+                "|     |\n" +                 //LIKE DAMN FOOL
                 "|     |\n" +
-                "|     |\n" +
-                "|    | |\n" +
+                "|    | |\n" +               // YOU BE OUT HERE TRIPPPIN
                 "|    | |\n" +
                 "----------"};
         while (d<word.length()){     //vill kunna få längden på det vallda ordet
@@ -142,7 +142,7 @@ public class Hangman {
     }
 
     private static String pickRandomword() {
-        String[] words = {"JACK O LANTERN", "DANDARA", "UNDERTALE", "JACK THE RIPPER", "NEW PHONE WHO DIS", "PIE", "DEAD MEN TELL NO TALES", "MONKEY VS LIZARD", "yoooooo", ""};
+        String[] words = {"JACK O LANTERN", "DANDARA", "UNDERTALE", "JACK THE RIPPER", "NEW PHONE WHO DIS", "PIE", "DEAD MEN TELL NO TALES", "MONKEY VS LIZARD", "YOOOOOO", "COVER YOURSELF IN OIL",};
         Random R = new Random();
         int randomNumber = R.nextInt(words.length);
         return words[randomNumber];
