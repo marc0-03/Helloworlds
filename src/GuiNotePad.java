@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -9,62 +8,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GuiNotePad {
-
+    JMenuBar menuBar;
 
     public GuiNotePad() {
-        newButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {  //Create a new file and if a file is open and has been changed, prompt user to save
-
-            }
-        });
-        openButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { //Open a file in your computor in the text editor
-                JFileChooser fc = new JFileChooser();
-                int resultat = fc.showOpenDialog(null);
-                if (resultat != JFileChooser.APPROVE_OPTION) {
-                    System.out.println("ingen fil valdes");
-                    System.exit(0);
-                }
-                String filnamn = fc.getSelectedFile().getAbsolutePath();
-                FileReader fr = null;
-                try {
-                    fr = new FileReader(filnamn);
-                } catch (FileNotFoundException E) {
-                    E.printStackTrace();
-                }
-                BufferedReader inFile = new BufferedReader(fr);
-
-                String line;
-                try {
-                    while ((line = inFile.readLine() ) != null ) {
-                        System.out.println(line);
-                        textArea1.setText(line);
-                    }
-                    inFile.close();
-                } catch (IOException E) {
-                    E.printStackTrace();
-                }
-            }
-        });
-        saveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) { //save the dokument or maybe "save as"? dont really know yet
-
-            }
-        });
-    }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("GuiNotePad");
-        frame.setContentPane(new GuiNotePad().panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
 
         //Where the GUI is created:
-        JMenuBar menuBar;
         JMenu menu, submenu;
         JMenuItem menuItem;
         JRadioButtonMenuItem rbMenuItem;
@@ -74,7 +22,7 @@ public class GuiNotePad {
         menuBar = new JMenuBar();
 
 //Build the first menu.
-        menu = new JMenu("A Menu");
+        menu = new JMenu();
         menu.setMnemonic(KeyEvent.VK_A);
         menu.getAccessibleContext().setAccessibleDescription(
                 "The only menu in this program that has menu items");
@@ -136,7 +84,67 @@ public class GuiNotePad {
         submenu.add(menuItem);
         menu.add(submenu);
 
-//Build second menu in the menu bar.
+        //Build second menu in the menu bar.
+        menu = new JMenu("Another Menu");
+        menu.setMnemonic(KeyEvent.VK_N);
+        menu.getAccessibleContext().setAccessibleDescription(
+                "This menu does nothing");
+        menuBar.add(menu);
+
+        newButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {  //Create a new file and if a file is open and has been changed, prompt user to save
+
+            }
+        });
+        openButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { //Open a file in your computor in the text editor
+                JFileChooser fc = new JFileChooser();
+                int resultat = fc.showOpenDialog(null);
+                if (resultat != JFileChooser.APPROVE_OPTION) {
+                    System.out.println("ingen fil valdes");
+                    System.exit(0);
+                }
+                String filnamn = fc.getSelectedFile().getAbsolutePath();
+                FileReader fr = null;
+                try {
+                    fr = new FileReader(filnamn);
+                } catch (FileNotFoundException E) {
+                    E.printStackTrace();
+                }
+                BufferedReader inFile = new BufferedReader(fr);
+
+                String line;
+                textArea1.setText("");
+                try {
+                    while ((line = inFile.readLine()) != null) {
+                        System.out.println(line);
+                        textArea1.append(line + "\n");
+                    }
+                    inFile.close();
+                } catch (IOException E) {
+                    E.printStackTrace();
+                }
+            }
+        });
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) { //save the dokument or maybe "save as"? dont really know yet
+
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("GuiNotePad");
+        GuiNotePad gui = new GuiNotePad();
+        frame.setContentPane(gui.panel1);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setJMenuBar(gui.menuBar);
+        frame.setVisible(true);
+
     }
     private JTextArea textArea1;
     private JPanel panel1;
