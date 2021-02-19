@@ -2,13 +2,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class GuiNotePad {
     JMenuBar menuBar;
+    String filnamn;
 
     public GuiNotePad() {
 
@@ -22,7 +20,7 @@ public class GuiNotePad {
         menuBar = new JMenuBar();
 
 //Build the first menu.
-        menu = new JMenu();
+        menu = new JMenu("Menu");
         menu.setMnemonic(KeyEvent.VK_A);
         menu.getAccessibleContext().setAccessibleDescription(
                 "The only menu in this program that has menu items");
@@ -94,7 +92,10 @@ public class GuiNotePad {
         newButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {  //Create a new file and if a file is open and has been changed, prompt user to save
-
+                if (!textArea1.getText().equals("")) {
+                    JOptionPane.showMessageDialog(null, "You have unsaved text");
+                }
+                textArea1.setText("");
             }
         });
         openButton.addActionListener(new ActionListener() {
@@ -106,7 +107,7 @@ public class GuiNotePad {
                     System.out.println("ingen fil valdes");
                     System.exit(0);
                 }
-                String filnamn = fc.getSelectedFile().getAbsolutePath();
+                filnamn = fc.getSelectedFile().getAbsolutePath();
                 FileReader fr = null;
                 try {
                     fr = new FileReader(filnamn);
@@ -131,7 +132,35 @@ public class GuiNotePad {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //save the dokument or maybe "save as"? dont really know yet
+                PrintWriter out = null;
+                int row = 0;
+                try {
+                    out = new PrintWriter(new BufferedWriter(new FileWriter("fil.tmp")));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                out.println(textArea1.getText());
+                out.close();
 
+                /*
+                try {
+                    BufferedReader in = new BufferedReader(new FileReader("fil.tmp"));
+                } catch (FileNotFoundException fileNotFoundException) {
+                    fileNotFoundException.printStackTrace();
+                }
+                try {
+                    out = new PrintWriter(new BufferedWriter (new FileWriter(filnamn)));
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                while (true) {
+                    String rad = in.readLine();
+                    if (rad == null);
+                    break;
+                    out.println(rad);
+                }
+
+                 */
             }
         });
     }
