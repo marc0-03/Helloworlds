@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -6,15 +7,13 @@ import java.io.*;
 
 public class GuiNotePad {
     JMenuBar menuBar;
-    String filnamn;
+    String filnamn = "";
 
     public GuiNotePad() {
 
         //Where the GUI is created:
-        JMenu menu, submenu;
+        JMenu menu;
         JMenuItem menuItem;
-        JRadioButtonMenuItem rbMenuItem;
-        JCheckBoxMenuItem cbMenuItem;
 
 //Create the menu bar.
         menuBar = new JMenuBar();
@@ -27,60 +26,27 @@ public class GuiNotePad {
         menuBar.add(menu);
 
 //a group of JMenuItems
-        menuItem = new JMenuItem("A text-only menu item",
-                KeyEvent.VK_T);
+        menuItem = new JMenuItem("New", KeyEvent.VK_T);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Open", KeyEvent.VK_T);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Save", KeyEvent.VK_T);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_1, ActionEvent.ALT_MASK));
+        menuItem.getAccessibleContext().setAccessibleDescription("This doesn't really do anything");
+        menu.add(menuItem);
+
+        menuItem = new JMenuItem("Save as", KeyEvent.VK_T);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(
                 KeyEvent.VK_1, ActionEvent.ALT_MASK));
         menuItem.getAccessibleContext().setAccessibleDescription(
                 "This doesn't really do anything");
         menu.add(menuItem);
-
-        menuItem = new JMenuItem("Both text and icon",
-                new ImageIcon("images/middle.gif"));
-        menuItem.setMnemonic(KeyEvent.VK_B);
-        menu.add(menuItem);
-
-        menuItem = new JMenuItem(new ImageIcon("images/middle.gif"));
-        menuItem.setMnemonic(KeyEvent.VK_D);
-        menu.add(menuItem);
-
-//a group of radio button menu items
-        menu.addSeparator();
-        ButtonGroup group = new ButtonGroup();
-        rbMenuItem = new JRadioButtonMenuItem("A radio button menu item");
-        rbMenuItem.setSelected(true);
-        rbMenuItem.setMnemonic(KeyEvent.VK_R);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
-
-        rbMenuItem = new JRadioButtonMenuItem("Another one");
-        rbMenuItem.setMnemonic(KeyEvent.VK_O);
-        group.add(rbMenuItem);
-        menu.add(rbMenuItem);
-
-//a group of check box menu items
-        menu.addSeparator();
-        cbMenuItem = new JCheckBoxMenuItem("A check box menu item");
-        cbMenuItem.setMnemonic(KeyEvent.VK_C);
-        menu.add(cbMenuItem);
-
-        cbMenuItem = new JCheckBoxMenuItem("Another one");
-        cbMenuItem.setMnemonic(KeyEvent.VK_H);
-        menu.add(cbMenuItem);
-
-//a submenu
-        menu.addSeparator();
-        submenu = new JMenu("A submenu");
-        submenu.setMnemonic(KeyEvent.VK_S);
-
-        menuItem = new JMenuItem("An item in the submenu");
-        menuItem.setAccelerator(KeyStroke.getKeyStroke(
-                KeyEvent.VK_2, ActionEvent.ALT_MASK));
-        submenu.add(menuItem);
-
-        menuItem = new JMenuItem("Another item");
-        submenu.add(menuItem);
-        menu.add(submenu);
 
         //Build second menu in the menu bar.
         menu = new JMenu("Another Menu");
@@ -92,7 +58,7 @@ public class GuiNotePad {
         newButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {  //Create a new file and if a file is open and has been changed, prompt user to save
-                if (!textArea1.getText().equals("")) {
+                if (!textArea1.getText().equals(filnamn)) {
                     JOptionPane.showMessageDialog(null, "You have unsaved text");
                 }
                 textArea1.setText("");
@@ -114,13 +80,13 @@ public class GuiNotePad {
                 } catch (FileNotFoundException E) {
                     E.printStackTrace();
                 }
+                assert fr != null;
                 BufferedReader inFile = new BufferedReader(fr);
 
                 String line;
                 textArea1.setText("");
                 try {
                     while ((line = inFile.readLine()) != null) {
-                        System.out.println(line);
                         textArea1.append(line + "\n");
                     }
                     inFile.close();
@@ -132,35 +98,49 @@ public class GuiNotePad {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) { //save the dokument or maybe "save as"? dont really know yet
-                PrintWriter out = null;
-                int row = 0;
+                if (! filnamn.equals("")) {
+                FileWriter fw = null;
                 try {
-                    out = new PrintWriter(new BufferedWriter(new FileWriter("fil.tmp")));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
+                    fw = new FileWriter(filnamn);
+                } catch (IOException g) {
+                    g.printStackTrace();
                 }
-                out.println(textArea1.getText());
-                out.close();
+                assert fw != null;
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter outFile = new PrintWriter(bw);
 
-                /*
-                try {
-                    BufferedReader in = new BufferedReader(new FileReader("fil.tmp"));
-                } catch (FileNotFoundException fileNotFoundException) {
-                    fileNotFoundException.printStackTrace();
+                outFile.println(textArea1.getText());
+                    outFile.flush();
+                    outFile.close();
+            } else {
+                    JOptionPane.showMessageDialog(null, "Ingen fil är vald\nKan inte spara");
                 }
-                try {
-                    out = new PrintWriter(new BufferedWriter (new FileWriter(filnamn)));
-                } catch (IOException ioException) {
-                    ioException.printStackTrace();
-                }
-                while (true) {
-                    String rad = in.readLine();
-                    if (rad == null);
-                    break;
-                    out.println(rad);
+            }
+        });
+        saveAsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fc = new JFileChooser();
+                int result = fc.showOpenDialog(null);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    filnamn = fc.getSelectedFile().getAbsolutePath();
+                } else {
+                    filnamn = "exempel";
                 }
 
-                 */
+                filnamn = filnamn+".txt";
+                FileWriter fw = null;
+                try {
+                    fw = new FileWriter(filnamn);
+                } catch (IOException g) {
+                    g.printStackTrace();
+                }
+                assert fw != null;
+                BufferedWriter bw = new BufferedWriter(fw);
+                PrintWriter outFile = new PrintWriter(bw);
+                        outFile.println(textArea1.getText());
+                    outFile.flush();
+                    outFile.close();
             }
         });
     }
@@ -180,4 +160,5 @@ public class GuiNotePad {
     private JButton newButton;
     private JButton saveButton;
     private JButton openButton;
+    private JButton saveAsButton;
 }
