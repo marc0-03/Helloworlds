@@ -33,9 +33,19 @@ public class Komplex {
         return new Komplex((b.vanligt + this.vanligt), (b.Negativt + this.Negativt));
     }
 
+    public Komplex sub(Komplex b) {
+        return new Komplex((this.vanligt - b.vanligt), (this.Negativt - b.Negativt));
+    }
+
     public Komplex multiply(Komplex b) {
         return new Komplex(((b.vanligt * this.vanligt) - (b.Negativt * this.Negativt)), ((this.vanligt * b.Negativt) + (this.Negativt * b.vanligt)));
     }
+
+    public  Komplex division(Komplex b) {
+        double E = ((b.vanligt*b.vanligt) + (b.Negativt*b.Negativt));
+        return  new Komplex(((this.vanligt*b.vanligt)+(this.Negativt*b.Negativt))/(E),(((this.Negativt*b.vanligt)-(this.vanligt*b.Negativt))/(E)));
+    }
+
 
     public double arg() {
         if (this.vanligt > 0) {
@@ -44,9 +54,9 @@ public class Komplex {
             return (Math.atan((this.Negativt / this.vanligt) + Math.PI));
         } else if (this.Negativt < 0 && this.vanligt < 0) {
             return (Math.atan((this.Negativt / this.vanligt) - Math.PI));
-        } else if (this.Negativt > 0 && this.vanligt=0) {
+        } else if (this.Negativt > 0 && this.vanligt==0) {
             return (Math.PI/2);
-        } else if (this.Negativt < 0 && this.vanligt=0) {
+        } else if (this.Negativt < 0 && this.vanligt==0) {
             return (-1*(Math.PI/2));
         } else {
             return 0;
